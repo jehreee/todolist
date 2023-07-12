@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const date = require(__dirname + "/date.js");
 const _ = require("lodash");
+const dotenv = require("dotenv").config();
 
 const app = express();
 
@@ -16,7 +17,7 @@ app.set('view engine', 'ejs');
 main().catch(err => console.log(err));
 
 async function main() {
-    await mongoose.connect('mongodb+srv://admin-jerry:jerry24@cluster0.z8cucqu.mongodb.net/todolistDB');
+    await mongoose.connect(process.env.MONGODB_URI);
 
     const itemSchema = new mongoose.Schema({
         name: String,
@@ -137,27 +138,9 @@ async function main() {
     
 } 
 
-// const items = ["Buy Food", "Cook Food", "Eat Food"];
-// const workItems = [];
 
+const PORT = process.env.PORT || 3000;
 
-
-
-// app.post("/", function(req, res){
-//     const item = req.body.newItem;
-
-//     if (req.body.list === "Work"){
-//         workItems.push(item);
-//         res.redirect("/work");
-//     }else{
-//         items.push(item);
-//         res.redirect("/");
-//     }
-// })
-
-
-
-
-app.listen(3000, function(){
-    console.log("Server is running on port 3000")
+app.listen(PORT, function(){
+    console.log("Server is running on port " + PORT + "...");
 })
